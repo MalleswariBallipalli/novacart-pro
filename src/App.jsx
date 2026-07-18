@@ -27,14 +27,9 @@ import Groceries from "./Pages/Groceries";
 import NotFound from "./Pages/NotFound";
 
 
-// Admin
-
-const AdminProducts = lazy(
-  () => import("./pages/AdminProducts")
-);
 
 
-// Error
+
 
 
 
@@ -251,15 +246,6 @@ element={<Groceries />}
 
 
 
-{/* Admin CRUD */}
-
-<Route
-
-path="/admin/products"
-
-element={<AdminProducts />}
-
-/>
 
 
 
