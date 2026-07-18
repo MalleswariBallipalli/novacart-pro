@@ -36,9 +36,8 @@ const AdminProducts = lazy(
 
 // Error
 
-const NotFound = lazy(
-  () => import("./pages/NotFound")
-);
+
+
 
 
 
