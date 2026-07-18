@@ -1,0 +1,231 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg-dark: #0b1220;
+  --bg-card: #111827;
+  --primary: #2563eb;
+  --primary-light: #3b82f6;
+  --text-white: #f8fafc;
+  --text-gray: #94a3b8;
+  --border: rgba(255,255,255,0.08);
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+body {
+  font-family: "Inter", sans-serif;
+  background: #020617;
+  color: var(--text-white);
+}
+
+
+
+
+.container {
+  max-width: 1200px;
+}
+
+
+
+
+.navbar-custom {
+
+  background: rgba(15,23,42,0.85);
+
+  backdrop-filter: blur(12px);
+
+  border-bottom:1px solid var(--border);
+
+  padding:18px 0;
+
+  position: sticky;
+
+  top:0;
+
+  z-index:1000;
+}
+
+
+
+.brand-logo {
+
+  font-size:24px;
+
+  font-weight:800;
+
+  color:white;
+
+  text-decoration:none;
+
+}
+
+
+
+.brand-logo span {
+
+  color:#3b82f6;
+
+}
+
+
+
+.nav-link-custom {
+
+  color:#cbd5e1 !important;
+
+  font-weight:500;
+
+  margin-left:20px;
+
+  transition:.3s;
+
+}
+
+
+
+.nav-link-custom:hover {
+
+  color:white !important;
+
+}
+
+
+
+.active-link {
+
+  color:#3b82f6 !important;
+
+}
+
+
+
+
+
+.btn-primary {
+
+  background:#2563eb;
+
+  border:none;
+
+  padding:10px 22px;
+
+  border-radius:10px;
+
+  transition:.3s;
+
+}
+
+
+.btn-primary:hover {
+
+  background:#1d4ed8;
+
+  transform:translateY(-2px);
+
+}
+
+
+
+
+
+
+.card {
+
+ background:#111827;
+
+ color:white;
+
+ border:1px solid var(--border);
+
+ border-radius:16px;
+
+ overflow:hidden;
+
+ transition:.35s;
+
+}
+
+
+
+.card:hover {
+
+ transform:translateY(-8px);
+
+ box-shadow:0 20px 40px rgba(0,0,0,.35);
+
+}
+
+
+
+.card img {
+
+ height:220px;
+
+ object-fit:cover;
+
+}
+
+
+
+
+.hero-section {
+
+ min-height:80vh;
+
+ display:flex;
+
+ align-items:center;
+
+ background:
+
+ linear-gradient(
+ 135deg,
+ #020617,
+ #172554
+ );
+
+}
+
+
+
+.hero-title {
+
+ font-size:55px;
+
+ font-weight:800;
+
+}
+
+
+
+.hero-title span {
+
+ color:#3b82f6;
+
+}
+
+
+
+
+
+
+.footer {
+
+ background:#020617;
+
+ border-top:1px solid var(--border);
+
+ padding:30px;
+
+ text-align:center;
+
+ color:#94a3b8;
+
+}

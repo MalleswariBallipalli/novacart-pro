@@ -1,0 +1,89 @@
+body {
+
+margin:0;
+
+font-family:Arial, Helvetica, sans-serif;
+
+transition:0.3s;
+
+}
+
+
+
+
+.dark {
+
+background-color:#121212;
+
+color:white;
+
+}
+
+
+
+
+
+.dark .card {
+
+background-color:#1e1e1e;
+
+color:white;
+
+}
+
+
+
+
+
+.dark .container {
+
+color:white;
+
+}
+
+
+
+
+
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark h5 {
+
+color:white;
+
+}
+
+
+
+
+
+.dark .form-control {
+
+background:#333;
+
+color:white;
+
+border-color:#555;
+
+}
+
+
+
+
+
+.dark .form-control::placeholder {
+
+color:#bbb;
+
+}
+
+
+
+
+*{
+
+transition:0.3s;
+
+}
