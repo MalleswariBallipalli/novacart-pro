@@ -10,28 +10,21 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 // Pages Lazy Loading
 
-const Home = lazy(() => import("./pages/Home"));
-const Products = lazy(() => import("./pages/Products"));
-const ProductDetails = lazy(() => import("./pages/ProductDetails"));
-
-const About = lazy(() => import("./pages/About"));
-const Contact = lazy(() => import("./pages/Contact"));
-
-const Login = lazy(() => import("./pages/Login"));
-const Register = lazy(() => import("./pages/Register"));
-
-const Cart = lazy(() => import("./pages/Cart"));
-const Wishlist = lazy(() => import("./pages/Wishlist"));
-
-const Profile = lazy(() => import("./pages/Profile"));
-
-
-// Categories
-
-const Categories = lazy(() => import("./pages/Categories"));
-const Beauty = lazy(() => import("./pages/Beauty"));
-const Electronics = lazy(() => import("./pages/Electronics"));
-const Groceries = lazy(() => import("./pages/Groceries"));
+import Home from "./Pages/Home";
+import Products from "./Pages/Products";
+import ProductDetails from "./Pages/ProductDetails";
+import About from "./Pages/About";
+import Contact from "./Pages/Contact";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
+import Cart from "./Pages/Cart";
+import Wishlist from "./Pages/Wishlist";
+import Profile from "./Pages/Profile";
+import Categories from "./Pages/Categories";
+import Beauty from "./Pages/Beauty";
+import Electronics from "./Pages/Electronics";
+import Groceries from "./Pages/Groceries";
+import NotFound from "./Pages/NotFound";
 
 
 // Admin
