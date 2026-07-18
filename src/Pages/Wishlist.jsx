@@ -1,10 +1,8 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { WishlistContext } from "../context/WishlistContext";
-import { CartContext } from "../context/CartContext";
 
 
 function Wishlist() {
-
 
   const {
     wishlist,
@@ -12,178 +10,96 @@ function Wishlist() {
   } = useContext(WishlistContext);
 
 
-
-  const {
-    addToCart
-  } = useContext(CartContext);
-
-
-
-
-
   return (
 
+    <div className="container py-5">
 
-    <div className="container mt-5">
-
-
-      <h2 className="text-center mb-4">
-
-        ❤️ My Wishlist
-
-      </h2>
-
-
-
+      <h1 className="text-center mb-4">
+        ❤️ Wishlist
+      </h1>
 
 
       {
         wishlist.length === 0 ?
 
-
         (
 
-          <h4 className="text-center">
+          <div className="text-center">
 
-            Wishlist is empty
+            <h3>
+              Wishlist is Empty
+            </h3>
 
-          </h4>
+            <p>
+              Add products to see here.
+            </p>
+
+          </div>
 
         )
 
-
         :
-
 
         (
 
+          <div className="row">
 
-          <div className="row g-4">
+            {
+              wishlist.map((product)=>(
 
+                <div
+                  className="col-md-3 mb-4"
+                  key={product.id}
+                >
 
-          {
-
-            wishlist.map(item=>(
-
-
-
-              <div
-
-                className="col-md-4"
-
-                key={item.id}
-
-              >
+                  <div className="card p-3">
 
 
-
-                <div className="card shadow h-100">
-
-
-
-                  <img
-
-                    src={item.thumbnail}
-
-                    alt={item.title}
-
-                    className="card-img-top p-3"
-
-                    style={{
-
-                      height:"220px",
-
-                      objectFit:"contain"
-
-                    }}
-
-                  />
+                    <img
+                      src={product.image}
+                      alt={product.title}
+                      height="200"
+                      style={{
+                        objectFit:"contain"
+                      }}
+                    />
 
 
-
-
-                  <div className="card-body">
-
-
-
-                    <h5>
-
-                      {item.title}
-
-                    </h5>
-
-
+                    <h6 className="mt-3">
+                      {product.title}
+                    </h6>
 
 
                     <p>
-
-                      Price: ${item.price}
-
+                      ${product.price}
                     </p>
 
 
-
-
-
                     <button
-
-                      className="btn btn-success w-100 mb-2"
-
-                      onClick={()=>addToCart(item)}
-
+                      className="btn btn-danger"
+                      onClick={() =>
+                        removeFromWishlist(product.id)
+                      }
                     >
-
-                      🛒 Add To Cart
-
+                      Remove
                     </button>
-
-
-
-
-
-                    <button
-
-                      className="btn btn-danger w-100"
-
-                      onClick={()=>removeFromWishlist(item.id)}
-
-                    >
-
-                      Remove ❤️
-
-                    </button>
-
-
 
 
                   </div>
 
-
-
                 </div>
 
-
-
-              </div>
-
-
-
-            ))
-
-          }
-
+              ))
+            }
 
           </div>
-
 
         )
 
       }
 
 
-
     </div>
-
 
   );
 

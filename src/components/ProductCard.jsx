@@ -1,87 +1,212 @@
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { CartContext } from "../context/CartContext";
+import { WishlistContext } from "../context/WishlistContext";
+
+import "./ProductCard.css";
+
 
 function ProductCard({ product }) {
-  return (
-    <div className="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
 
-      {/* Product Image */}
-      <div
-        className="d-flex justify-content-center align-items-center bg-light p-4"
-        style={{ height: "260px" }}
-      >
-        <img
-          src={product.image}
-          alt={product.title}
-          className="img-fluid"
-          style={{
-            maxHeight: "180px",
-            objectFit: "contain",
-          }}
-        />
-      </div>
 
-      {/* Card Body */}
-      <div className="card-body d-flex flex-column">
+  const {
+    addToCart
+  } = useContext(CartContext);
 
-        {/* Category */}
-        <span className="badge bg-primary mb-2 text-capitalize">
-          {product.category}
-        </span>
 
-        {/* Title */}
-        <h5
-          className="card-title fw-bold"
-          style={{
-            minHeight: "55px",
-            fontSize: "1rem",
-          }}
-        >
-          {product.title}
-        </h5>
 
-        {/* Description */}
-        <p
-          className="text-muted small flex-grow-1"
-          style={{
-            overflow: "hidden",
-            display: "-webkit-box",
-            WebkitLineClamp: 3,
-            WebkitBoxOrient: "vertical",
-          }}
-        >
-          {product.description}
-        </p>
+  const {
+    wishlist,
+    addToWishlist,
+    removeFromWishlist
+  } = useContext(WishlistContext);
 
-        {/* Rating */}
-        <div className="mb-2">
-          ⭐ {product.rating?.rate} ({product.rating?.count} Reviews)
-        </div>
 
-        {/* Price */}
-        <h4 className="text-success fw-bold mb-3">
-          ${product.price}
-        </h4>
 
-        {/* Buttons */}
-        <div className="d-grid gap-2">
+  const isWishlisted =
+    wishlist.some(
+      (item)=>item.id === product.id
+    );
 
-          <Link
-            to={`/products/${product.id}`}
-            className="btn btn-outline-primary"
-          >
-            View Details
-          </Link>
 
-          <button className="btn btn-primary">
-            Add to Cart
-          </button>
 
-        </div>
 
-      </div>
+  const toggleWishlist=()=>{
 
-    </div>
-  );
+
+    if(isWishlisted){
+
+      removeFromWishlist(product.id);
+
+    }
+
+    else{
+
+      addToWishlist(product);
+
+    }
+
+
+  };
+
+
+
+
+return (
+
+<div className="product-card">
+
+
+
+{/* Wishlist */}
+
+<button
+
+className={
+isWishlisted
+?
+"wishlist active"
+:
+"wishlist"
 }
+
+onClick={toggleWishlist}
+
+>
+
+❤️
+
+</button>
+
+
+
+
+
+{/* Image */}
+
+
+<div className="product-image">
+
+
+<img
+
+src={product.image}
+
+alt={product.title}
+
+/>
+
+
+</div>
+
+
+
+
+
+{/* Content */}
+
+
+<div className="product-content">
+
+
+
+<h5>
+
+{product.title.substring(0,45)}
+
+...
+
+</h5>
+
+
+
+
+<div className="rating">
+
+⭐⭐⭐⭐⭐
+
+<span>
+
+(120)
+
+</span>
+
+</div>
+
+
+
+
+
+<p className="category">
+
+{product.category}
+
+</p>
+
+
+
+
+
+<h3>
+
+${product.price}
+
+</h3>
+
+
+
+
+
+<div className="card-buttons">
+
+
+
+<Link
+
+to={`/products/${product.id}`}
+
+className="view-btn"
+
+>
+
+View
+
+</Link>
+
+
+
+
+<button
+
+className="cart-btn"
+
+onClick={()=>
+addToCart(product)
+}
+
+>
+
+Add Cart
+
+</button>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+</div>
+
+);
+
+
+}
+
 
 export default ProductCard;

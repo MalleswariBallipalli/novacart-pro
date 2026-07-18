@@ -1,203 +1,438 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+
 import ProductCard from "../components/ProductCard";
 
-function Products() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+import "./Products.css";
 
-  const [searchParams, setSearchParams] = useSearchParams();
+
+function Products() {
+
+
+  const [products,setProducts] = useState([]);
+
+  const [loading,setLoading] = useState(true);
+
+
+  const [searchParams,setSearchParams] = useSearchParams();
+
 
   const search = searchParams.get("search") || "";
+
   const category = searchParams.get("category") || "all";
+
   const sort = searchParams.get("sort") || "";
 
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((data) => {
+
+
+  useEffect(()=>{
+
+
+    const getProducts = async()=>{
+
+
+      try{
+
+
+        const res = await fetch(
+          "https://fakestoreapi.com/products"
+        );
+
+
+        const data = await res.json();
+
+
         setProducts(data);
+
+
+      }
+
+      catch(error){
+
+        console.log(error);
+
+      }
+
+      finally{
+
         setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
 
-  const updateParams = (key, value) => {
-    const params = Object.fromEntries(searchParams.entries());
+      }
 
-    if (value) {
-      params[key] = value;
-    } else {
-      delete params[key];
+
+    };
+
+
+    getProducts();
+
+
+  },[]);
+
+
+
+
+
+  const updateFilter=(key,value)=>{
+
+
+    const params =
+    Object.fromEntries(searchParams);
+
+
+
+    if(value && value !== "all"){
+
+      params[key]=value;
+
     }
+
+    else{
+
+      delete params[key];
+
+    }
+
 
     setSearchParams(params);
+
+
   };
 
-  const filteredProducts = useMemo(() => {
-    let data = [...products];
 
-    // Search
-    data = data.filter((product) =>
-      product.title.toLowerCase().includes(search.toLowerCase())
-    );
 
-    // Category
-    if (category !== "all") {
-      data = data.filter(
-        (product) => product.category === category
+
+
+  const filteredProducts = useMemo(()=>{
+
+
+    let result=[...products];
+
+
+
+    if(search){
+
+      result=result.filter(product=>
+
+        product.title
+        .toLowerCase()
+        .includes(search.toLowerCase())
+
       );
+
     }
 
-    // Sort
-    if (sort === "low-high") {
-      data.sort((a, b) => a.price - b.price);
+
+
+
+    if(category !== "all"){
+
+
+      result=result.filter(product=>
+
+        product.category === category
+
+      );
+
     }
 
-    if (sort === "high-low") {
-      data.sort((a, b) => b.price - a.price);
+
+
+
+    if(sort==="low-high"){
+
+
+      result.sort(
+        (a,b)=>a.price-b.price
+      );
+
+
     }
 
-    return data;
-  }, [products, search, category, sort]);
 
-  return (
-    <div className="container py-5">
 
-      {/* Header */}
+    if(sort==="high-low"){
 
-      <div className="text-center mb-5">
-        <h1 className="fw-bold display-5">
-          🛍 Our Premium Products
-        </h1>
 
-        <p className="text-muted">
-          Discover high-quality products at amazing prices.
-        </p>
-      </div>
+      result.sort(
+        (a,b)=>b.price-a.price
+      );
 
-      {/* Filters */}
 
-      <div className="row g-3 mb-4">
+    }
 
-        <div className="col-lg-4">
-          <input
-            type="text"
-            className="form-control form-control-lg"
-            placeholder="🔍 Search products..."
-            value={search}
-            onChange={(e) =>
-              updateParams("search", e.target.value)
-            }
-          />
-        </div>
 
-        <div className="col-lg-4">
-          <select
-            className="form-select form-select-lg"
-            value={category}
-            onChange={(e) =>
-              updateParams("category", e.target.value)
-            }
-          >
-            <option value="all">
-              All Categories
-            </option>
 
-            <option value="men's clothing">
-              Men's Clothing
-            </option>
+    return result;
 
-            <option value="women's clothing">
-              Women's Clothing
-            </option>
 
-            <option value="electronics">
-              Electronics
-            </option>
 
-            <option value="jewelery">
-              Jewellery
-            </option>
+  },[
+    products,
+    search,
+    category,
+    sort
+  ]);
 
-          </select>
-        </div>
 
-        <div className="col-lg-4">
-          <select
-            className="form-select form-select-lg"
-            value={sort}
-            onChange={(e) =>
-              updateParams("sort", e.target.value)
-            }
-          >
-            <option value="">
-              Sort By
-            </option>
 
-            <option value="low-high">
-              Price: Low to High
-            </option>
 
-            <option value="high-low">
-              Price: High to Low
-            </option>
 
-          </select>
-        </div>
 
-      </div>
+return (
 
-      <div className="d-flex justify-content-between mb-4">
+<div className="products-page">
 
-        <h5>
-          Products Found:
-          <span className="text-primary">
-            {" "}
-            {filteredProducts.length}
-          </span>
-        </h5>
 
-      </div>
 
-      {loading ? (
-        <div className="text-center py-5">
+{/* HERO */}
 
-          <div
-            className="spinner-border text-primary"
-            role="status"
-          />
+<section className="products-hero">
 
-          <p className="mt-3">
-            Loading Products...
-          </p>
 
-        </div>
-      ) : filteredProducts.length === 0 ? (
-        <div className="text-center py-5">
+<h1>
 
-          <h2>😕</h2>
+🛍 Explore Premium Collection
 
-          <h4>No Products Found</h4>
+</h1>
 
-        </div>
-      ) : (
-        <div className="row">
 
-          {filteredProducts.map((product) => (
-            <div
-              className="col-lg-3 col-md-4 col-sm-6 mb-4"
-              key={product.id}
-            >
-              <ProductCard product={product} />
-            </div>
-          ))}
+<p>
 
-        </div>
-      )}
+Discover latest products with amazing quality and best prices.
 
-    </div>
-  );
+</p>
+
+
+</section>
+
+
+
+
+
+
+{/* FILTER AREA */}
+
+<div className="container">
+
+
+<div className="filter-box">
+
+
+
+<div className="search-box">
+
+
+<input
+
+type="text"
+
+placeholder="🔍 Search products..."
+
+value={search}
+
+onChange={(e)=>
+updateFilter(
+"search",
+e.target.value
+)
 }
+
+/>
+
+
+</div>
+
+
+
+
+
+<select
+
+value={category}
+
+onChange={(e)=>
+updateFilter(
+"category",
+e.target.value
+)
+}
+
+>
+
+
+<option value="all">
+All Categories
+</option>
+
+
+<option value="electronics">
+Electronics
+</option>
+
+
+<option value="jewelery">
+Jewellery
+</option>
+
+
+<option value="men's clothing">
+Men's Clothing
+</option>
+
+
+<option value="women's clothing">
+Women's Clothing
+</option>
+
+
+
+</select>
+
+
+
+
+
+<select
+
+value={sort}
+
+onChange={(e)=>
+updateFilter(
+"sort",
+e.target.value
+)
+}
+
+>
+
+
+<option value="">
+Sort Products
+</option>
+
+
+<option value="low-high">
+Price Low → High
+</option>
+
+
+<option value="high-low">
+Price High → Low
+</option>
+
+
+</select>
+
+
+
+</div>
+
+
+
+
+
+<div className="product-header">
+
+
+<h4>
+
+Products Found
+
+<span>
+
+ {filteredProducts.length}
+
+</span>
+
+</h4>
+
+
+</div>
+
+
+
+
+
+{/* PRODUCTS */}
+
+
+{
+loading ?
+
+
+<div className="loader">
+
+Loading Products...
+
+</div>
+
+
+:
+
+
+filteredProducts.length===0 ?
+
+
+<div className="empty">
+
+
+<h2>
+😕
+</h2>
+
+<h3>
+No Products Found
+</h3>
+
+
+</div>
+
+
+
+:
+
+
+<div className="products-grid">
+
+
+{
+
+filteredProducts.map(product=>(
+
+
+<ProductCard
+
+key={product.id}
+
+product={product}
+
+/>
+
+
+))
+
+
+}
+
+
+</div>
+
+
+
+}
+
+
+
+</div>
+
+
+</div>
+
+
+);
+
+
+}
+
 
 export default Products;

@@ -1,111 +1,152 @@
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useRef, useState } from "react";
+
+import "./Profile.css";
 
 
-function Profile(){
+function Profile() {
 
 
-const { user } = useContext(AuthContext);
+  const fileInputRef = useRef(null);
 
 
-
-return(
-
-
-<div className="container mt-5">
-
-
-<div className="card shadow p-4 col-md-6 mx-auto">
+  const [profileImage,setProfileImage] = useState(null);
 
 
 
-<h2 className="text-center mb-4">
+  const handleImageChange = (event)=>{
+
+
+    const file = event.target.files[0];
+
+
+    if(file){
+
+
+      const imageURL = URL.createObjectURL(file);
+
+
+      setProfileImage(imageURL);
+
+
+    }
+
+
+  };
+
+
+
+
+
+  const openFilePicker = ()=>{
+
+
+    fileInputRef.current.click();
+
+
+  };
+
+
+
+
+
+
+return (
+
+<div className="profile-page">
+
+
+<div className="profile-card">
+
+
+<h1>
 
 👤 My Profile
 
-</h2>
+</h1>
 
+
+
+
+<div className="profile-image-box">
 
 
 {
 
-user ?
+profileImage ?
 
 
-<>
+<img
 
+src={profileImage}
 
-<h5>
+alt="Profile"
 
-Name:
-
-<span className="text-primary">
-
-{" "}{user.name}
-
-</span>
-
-</h5>
-
-
-
-<h5>
-
-Email:
-
-<span className="text-primary">
-
-{" "}{user.email}
-
-</span>
-
-</h5>
-
-
-
-<h5>
-
-Account Status:
-
-<span className="text-success">
-
-{" "}Active
-
-</span>
-
-</h5>
-
-
-</>
+/>
 
 
 :
 
 
-<h4 className="text-danger">
+<div className="default-image">
 
-Please Login First
+🙂
 
-</h4>
+</div>
 
 
 }
 
 
 
-
 </div>
 
 
 
+
+
+<input
+
+type="file"
+
+accept="image/*"
+
+ref={fileInputRef}
+
+onChange={handleImageChange}
+
+style={{
+display:"none"
+}}
+
+/>
+
+
+
+
+
+<button
+
+className="upload-btn"
+
+onClick={openFilePicker}
+
+>
+
+📷 Upload Profile Picture
+
+</button>
+
+
+
 </div>
 
+
+</div>
 
 );
 
 
 }
-
 
 
 export default Profile;

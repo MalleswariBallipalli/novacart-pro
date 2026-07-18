@@ -1,15 +1,449 @@
-.product-card {
-    transition: 0.3s;
+/* ==============================
+   Products Page
+================================ */
+
+
+.products-page {
+
+  min-height: 100vh;
+
+  padding-bottom: 60px;
+
+  background: #f8fafc;
+
+  transition: 0.3s ease;
+
 }
 
-.product-card:hover {
-    transform: translateY(-8px);
+
+
+/* ==============================
+   Dark Mode
+================================ */
+
+
+.dark .products-page {
+
+  background: #0f172a;
+
+  color: white;
+
 }
 
-.product-image {
-    transition: 0.3s;
+
+
+
+/* ==============================
+   Hero Section
+================================ */
+
+
+.products-hero {
+
+  text-align: center;
+
+  padding: 70px 20px;
+
+  margin-bottom: 40px;
+
+  background:
+  linear-gradient(
+    135deg,
+    #667eea,
+    #764ba2
+  );
+
+  color:white;
+
 }
 
-.product-card:hover .product-image {
-    transform: scale(1.05);
+
+
+.products-hero h1 {
+
+  font-size: 45px;
+
+  font-weight: 800;
+
+  margin-bottom:15px;
+
+}
+
+
+
+.products-hero p {
+
+  font-size:18px;
+
+  opacity:0.9;
+
+}
+
+
+
+
+
+/* ==============================
+   Filter Box
+================================ */
+
+
+.filter-box {
+
+
+display:grid;
+
+grid-template-columns:
+
+2fr 1fr 1fr;
+
+
+gap:20px;
+
+
+padding:25px;
+
+
+background:white;
+
+
+border-radius:20px;
+
+
+box-shadow:
+
+0 10px 30px rgba(0,0,0,0.08);
+
+
+margin-bottom:35px;
+
+
+}
+
+
+
+
+.dark .filter-box {
+
+
+background:#1e293b;
+
+
+box-shadow:
+
+0 10px 30px rgba(0,0,0,0.4);
+
+
+}
+
+
+
+
+.filter-box input,
+.filter-box select {
+
+
+width:100%;
+
+
+padding:15px;
+
+
+border-radius:12px;
+
+
+border:1px solid #ddd;
+
+
+font-size:16px;
+
+
+outline:none;
+
+
+transition:0.3s;
+
+
+}
+
+
+
+
+
+.filter-box input:focus,
+.filter-box select:focus {
+
+
+border-color:#667eea;
+
+
+box-shadow:
+
+0 0 0 3px rgba(102,126,234,.2);
+
+
+}
+
+
+
+
+.dark .filter-box input,
+.dark .filter-box select {
+
+
+background:#0f172a;
+
+
+color:white;
+
+
+border-color:#334155;
+
+
+}
+
+
+
+
+
+/* ==============================
+ Product Count
+================================ */
+
+
+.product-header {
+
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:30px;
+
+
+}
+
+
+
+.product-header h4 {
+
+
+font-weight:700;
+
+
+}
+
+
+
+.product-header span {
+
+
+background:#667eea;
+
+
+color:white;
+
+
+padding:6px 15px;
+
+
+border-radius:30px;
+
+
+margin-left:10px;
+
+
+font-size:15px;
+
+
+}
+
+
+
+
+
+/* ==============================
+ Products Grid
+================================ */
+
+
+.products-grid {
+
+
+display:grid;
+
+
+grid-template-columns:
+
+repeat(4,1fr);
+
+
+gap:25px;
+
+
+}
+
+
+
+
+
+
+/* ==============================
+ Loading
+================================ */
+
+
+.loader {
+
+
+height:300px;
+
+
+display:flex;
+
+
+justify-content:center;
+
+
+align-items:center;
+
+
+font-size:22px;
+
+
+font-weight:600;
+
+
+}
+
+
+
+
+
+/* ==============================
+ Empty State
+================================ */
+
+
+.empty {
+
+
+text-align:center;
+
+
+padding:80px 20px;
+
+
+}
+
+
+
+.empty h2 {
+
+
+font-size:60px;
+
+
+}
+
+
+
+
+
+/* ==============================
+ Responsive
+================================ */
+
+
+@media(max-width:1200px){
+
+
+.products-grid{
+
+grid-template-columns:
+
+repeat(3,1fr);
+
+}
+
+
+}
+
+
+
+@media(max-width:992px){
+
+
+.filter-box{
+
+
+grid-template-columns:1fr;
+
+
+}
+
+
+
+.products-grid{
+
+
+grid-template-columns:
+
+repeat(2,1fr);
+
+
+}
+
+
+
+.products-hero h1{
+
+
+font-size:36px;
+
+
+}
+
+
+
+}
+
+
+
+@media(max-width:576px){
+
+
+.products-grid{
+
+
+grid-template-columns:
+
+1fr;
+
+
+}
+
+
+
+.products-hero{
+
+
+padding:50px 15px;
+
+
+}
+
+
+
+.products-hero h1{
+
+
+font-size:28px;
+
+
+}
+
+
 }

@@ -1,242 +1,308 @@
 import { useEffect, useState } from "react";
 
-
-function AdminProducts(){
-
-
-const [products,setProducts] = useState([]);
+import "./AdminProducts.css";
 
 
-const [title,setTitle] = useState("");
-
-const [price,setPrice] = useState("");
-
-const [editId,setEditId] = useState(null);
+function AdminProducts() {
 
 
+  const [products,setProducts] = useState([]);
+
+
+  const [form,setForm] = useState({
+
+    title:"",
+    price:"",
+    category:"",
+    image:""
+
+  });
+
+
+  const [editId,setEditId] = useState(null);
 
 
 
-// READ - GET API
+  // READ PRODUCTS
 
-useEffect(()=>{
-
-
-fetch("https://fakestoreapi.com/products")
-
-.then(res=>res.json())
-
-.then(data=>{
-
-setProducts(data);
-
-});
+  useEffect(()=>{
 
 
-},[]);
+    fetchProducts();
+
+
+  },[]);
 
 
 
 
 
+  const fetchProducts = async()=>{
 
 
-// CREATE + UPDATE
-
-const handleSubmit=(e)=>{
-
-
-e.preventDefault();
+    const response = await fetch(
+      "https://fakestoreapi.com/products"
+    );
 
 
+    const data = await response.json();
 
-if(!title || !price){
 
-alert("All fields required");
+    setProducts(data);
 
-return;
 
-}
+  };
 
 
 
 
 
-if(editId){
+  // INPUT CHANGE
+
+  const handleChange=(e)=>{
+
+
+    setForm({
+
+      ...form,
+
+      [e.target.name]:e.target.value
+
+    });
+
+
+  };
 
 
 
-setProducts(
 
-products.map((product)=>
 
-product.id === editId
+  // CREATE + UPDATE
+
+  const saveProduct=(e)=>{
+
+
+    e.preventDefault();
+
+
+
+    if(editId){
+
+
+      setProducts(
+
+        products.map(product=>
+
+          product.id===editId
+
+          ?
+
+          {
+            ...product,
+            ...form,
+            price:Number(form.price)
+          }
+
+          :
+
+          product
+
+        )
+
+      );
+
+      setEditId(null);
+
+
+    }
+
+
+    else{
+
+
+      const newProduct={
+
+
+        id:Date.now(),
+
+        ...form,
+
+        price:Number(form.price)
+
+
+      };
+
+
+
+      setProducts([
+
+        newProduct,
+
+        ...products
+
+      ]);
+
+
+    }
+
+
+
+
+    setForm({
+
+      title:"",
+      price:"",
+      category:"",
+      image:""
+
+    });
+
+
+
+  };
+
+
+
+
+
+
+
+  // EDIT
+
+  const editProduct=(product)=>{
+
+
+    setEditId(product.id);
+
+
+    setForm({
+
+      title:product.title,
+
+      price:product.price,
+
+      category:product.category,
+
+      image:product.image
+
+    });
+
+
+  };
+
+
+
+
+
+  // DELETE
+
+  const deleteProduct=(id)=>{
+
+
+    const updatedProducts =
+
+    products.filter(
+
+      product=>product.id!==id
+
+    );
+
+
+    setProducts(updatedProducts);
+
+
+  };
+
+
+
+
+
+
+return (
+
+<div className="admin-page">
+
+
+<div className="container py-5">
+
+
+<h1 className="text-center mb-5">
+
+⚡ Admin Product Management
+
+</h1>
+
+
+
+
+
+{/* FORM */}
+
+
+
+<div className="admin-form">
+
+
+<h3>
+
+{
+editId
 
 ?
 
-{
-
-...product,
-
-title:title,
-
-price:Number(price)
-
-}
+"Update Product"
 
 :
 
-product
-
-
-)
-
-);
-
-
-
-setEditId(null);
-
-
+"Add New Product"
 
 }
 
-else{
+</h3>
 
 
 
-const newProduct={
-
-
-id:Date.now(),
-
-title:title,
-
-price:Number(price)
-
-
-};
-
-
-
-
-setProducts([
-
-newProduct,
-
-...products
-
-]);
-
-
-}
-
-
-
-
-
-
-setTitle("");
-
-setPrice("");
-
-};
-
-
-
-
-
-
-
-
-
-// EDIT
-
-const handleEdit=(product)=>{
-
-
-setTitle(product.title);
-
-setPrice(product.price);
-
-setEditId(product.id);
-
-
-};
-
-
-
-
-
-
-
-
-// DELETE
-
-const handleDelete=(id)=>{
-
-
-setProducts(
-
-products.filter(
-
-(product)=>product.id !== id
-
-)
-
-);
-
-
-};
-
-
-
-
-
-
-
-
-
-return(
-
-
-<div className="container mt-5">
-
-
-
-<h2 className="text-center mb-4">
-
-Admin Product Management
-
-</h2>
-
-
-
-
-
-
-
-<div className="card shadow p-4 mb-4">
-
-
-
-<form onSubmit={handleSubmit}>
+<form onSubmit={saveProduct}>
 
 
 <input
 
-
-className="form-control mb-3"
-
+name="title"
 
 placeholder="Product Title"
 
+value={form.title}
 
-value={title}
+onChange={handleChange}
+
+/>
 
 
-onChange={(e)=>setTitle(e.target.value)}
 
+<input
+
+name="price"
+
+placeholder="Price"
+
+value={form.price}
+
+onChange={handleChange}
+
+/>
+
+
+
+
+<input
+
+name="category"
+
+placeholder="Category"
+
+value={form.category}
+
+onChange={handleChange}
 
 />
 
@@ -246,32 +312,20 @@ onChange={(e)=>setTitle(e.target.value)}
 
 <input
 
+name="image"
 
-className="form-control mb-3"
+placeholder="Image URL"
 
+value={form.image}
 
-placeholder="Product Price"
-
-
-type="number"
-
-
-value={price}
-
-
-onChange={(e)=>setPrice(e.target.value)}
-
+onChange={handleChange}
 
 />
 
 
 
 
-
-
-
-<button className="btn btn-primary">
-
+<button>
 
 {
 
@@ -287,9 +341,7 @@ editId
 
 }
 
-
 </button>
-
 
 
 
@@ -305,92 +357,152 @@ editId
 
 
 
+{/* PRODUCT TABLE */}
 
-<div className="row">
 
+
+<div className="admin-table">
+
+
+<table>
+
+
+<thead>
+
+
+<tr>
+
+<th>
+Image
+</th>
+
+
+<th>
+Name
+</th>
+
+
+<th>
+Price
+</th>
+
+
+<th>
+Category
+</th>
+
+
+<th>
+Actions
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+
+<tbody>
 
 
 {
 
-
-products.map((product)=>(
-
-
-<div
-
-className="col-md-4 mb-4"
-
-key={product.id}
-
->
+products.map(product=>(
 
 
-<div className="card shadow p-3">
+<tr key={product.id}>
 
 
+<td>
 
-<h5>
+<img
 
-{product.title}
+src={product.image}
 
-</h5>
+alt=""
+
+/>
+
+</td>
 
 
 
-<p>
+<td>
 
-Price: ${product.price}
+{product.title.substring(0,40)}
 
-</p>
+</td>
 
 
+
+<td>
+
+${product.price}
+
+</td>
+
+
+
+<td>
+
+{product.category}
+
+</td>
+
+
+
+<td>
 
 
 <button
 
+className="edit"
 
-className="btn btn-warning me-2"
-
-
-onClick={()=>handleEdit(product)}
+onClick={()=>editProduct(product)}
 
 >
 
-Edit
+✏ Edit
 
 </button>
 
 
 
 
-
 <button
 
+className="delete"
 
-className="btn btn-danger"
-
-
-onClick={()=>handleDelete(product.id)}
+onClick={()=>deleteProduct(product.id)}
 
 >
 
-Delete
+🗑 Delete
 
 </button>
 
 
 
+</td>
 
-</div>
 
-
-</div>
+</tr>
 
 
 ))
 
-
 }
+
+
+</tbody>
+
+
+
+</table>
 
 
 
@@ -398,7 +510,7 @@ Delete
 
 
 
-
+</div>
 
 
 </div>
