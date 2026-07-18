@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
+
 
 // Components
 import Navbar from "./components/Navbar";
@@ -7,198 +8,300 @@ import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 
-// Pages
-import Home from "./pages/Home";
-import Products from "./pages/Products";
-import ProductDetails from "./pages/ProductDetails";
+// Pages Lazy Loading
 
-import About from "./pages/About";
-import Contact from "./pages/Contact";
+const Home = lazy(() => import("./pages/Home"));
+const Products = lazy(() => import("./pages/Products"));
+const ProductDetails = lazy(() => import("./pages/ProductDetails"));
 
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
 
-import Cart from "./pages/Cart";
-import Wishlist from "./pages/Wishlist";
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
 
-import Profile from "./pages/Profile";
+const Cart = lazy(() => import("./pages/Cart"));
+const Wishlist = lazy(() => import("./pages/Wishlist"));
 
-import Categories from "./pages/Categories";
-import Beauty from "./pages/Beauty";
-import Electronics from "./pages/Electronics";
-import Groceries from "./pages/Groceries";
+const Profile = lazy(() => import("./pages/Profile"));
 
-import NotFound from "./pages/NotFound";
+
+// Categories
+
+const Categories = lazy(() => import("./pages/Categories"));
+const Beauty = lazy(() => import("./pages/Beauty"));
+const Electronics = lazy(() => import("./pages/Electronics"));
+const Groceries = lazy(() => import("./pages/Groceries"));
+
+
+// Admin
+
+const AdminProducts = lazy(
+  () => import("./pages/AdminProducts")
+);
+
+
+// Error
+
+const NotFound = lazy(
+  () => import("./pages/NotFound")
+);
+
 
 
 function App() {
 
-  return (
 
-    <>
+return (
 
-      <Navbar />
+<>
 
+<Navbar />
 
-      <main>
 
-        <Routes>
+<Suspense
 
+fallback={
 
-          {/* Home */}
+<div className="loader-container">
 
-          <Route
-            path="/"
-            element={<Home />}
-          />
+<h3>
+Loading...
+</h3>
 
+</div>
 
-          {/* Products */}
+}
 
-          <Route
-            path="/products"
-            element={<Products />}
-          />
+>
 
 
-          <Route
-            path="/products/:id"
-            element={<ProductDetails />}
-          />
+<Routes>
 
 
 
-          {/* Static Pages */}
+{/* Home */}
 
-          <Route
-            path="/about"
-            element={<About />}
-          />
+<Route
 
+path="/"
 
-          <Route
-            path="/contact"
-            element={<Contact />}
-          />
+element={<Home />}
 
+/>
 
 
-          {/* Authentication */}
 
-          <Route
-            path="/login"
-            element={<Login />}
-          />
 
+{/* Products */}
 
-          <Route
-            path="/register"
-            element={<Register />}
-          />
+<Route
 
+path="/products"
 
+element={<Products />}
 
-          {/* Shopping */}
+/>
 
-          <Route
-            path="/cart"
-            element={<Cart />}
-          />
 
 
-          <Route
-            path="/wishlist"
-            element={<Wishlist />}
-          />
+<Route
 
+path="/product/:id"
 
+element={<ProductDetails />}
 
-          {/* Protected */}
+/>
 
-          <Route
 
-            path="/profile"
 
-            element={
 
-              <ProtectedRoute>
 
-                <Profile />
+{/* Pages */}
 
-              </ProtectedRoute>
+<Route
 
-            }
+path="/about"
 
-          />
+element={<About />}
 
+/>
 
 
-          {/* Categories Nested Routing */}
+<Route
 
-          <Route
+path="/contact"
 
-            path="/categories"
+element={<Contact />}
 
-            element={<Categories />}
+/>
 
-          >
 
 
-            <Route
 
-              path="beauty"
 
-              element={<Beauty />}
+{/* Auth */}
 
-            />
+<Route
 
+path="/login"
 
-            <Route
+element={<Login />}
 
-              path="electronics"
+/>
 
-              element={<Electronics />}
 
-            />
 
+<Route
 
-            <Route
+path="/register"
 
-              path="groceries"
+element={<Register />}
 
-              element={<Groceries />}
+/>
 
-            />
 
 
-          </Route>
 
 
+{/* Shopping */}
 
-          {/* 404 */}
+<Route
 
-          <Route
+path="/cart"
 
-            path="*"
+element={<Cart />}
 
-            element={<NotFound />}
+/>
 
-          />
 
 
-        </Routes>
 
+<Route
 
-      </main>
+path="/wishlist"
 
+element={<Wishlist />}
 
+/>
 
-      <Footer />
 
 
-    </>
 
-  );
+
+
+{/* Protected Profile */}
+
+<Route
+
+path="/profile"
+
+element={
+
+<ProtectedRoute>
+
+<Profile />
+
+</ProtectedRoute>
+
+}
+
+/>
+
+
+
+
+
+
+
+{/* Categories Nested */}
+
+<Route
+
+path="/categories"
+
+element={<Categories />}
+
+>
+
+
+<Route
+
+path="beauty"
+
+element={<Beauty />}
+
+/>
+
+
+<Route
+
+path="electronics"
+
+element={<Electronics />}
+
+/>
+
+
+<Route
+
+path="groceries"
+
+element={<Groceries />}
+
+/>
+
+
+</Route>
+
+
+
+
+
+
+{/* Admin CRUD */}
+
+<Route
+
+path="/admin/products"
+
+element={<AdminProducts />}
+
+/>
+
+
+
+
+
+
+
+{/* 404 */}
+
+<Route
+
+path="*"
+
+element={<NotFound />}
+
+/>
+
+
+
+
+</Routes>
+
+
+</Suspense>
+
+
+
+<Footer />
+
+
+</>
+
+);
+
 
 }
 
